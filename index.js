@@ -7,6 +7,7 @@ routes();
 config();
 const app = express();
 app.use(json())
+app.use('/', routes());
 app.listen(8767,()=>{
     console.log('server started at 8767')
 })
