@@ -3,7 +3,6 @@ import { config } from 'dotenv';
 import routes from './routes/index.js';
 import database from './config/database.js';
 database();
-routes();
 config();
 const app = express();
 app.use(json())

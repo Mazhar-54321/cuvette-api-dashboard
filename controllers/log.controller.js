@@ -1,7 +1,7 @@
 import * as LogServices from "../services/log.service.js";
 export const addLog = async (req, res, next) => {
   try {
-    console.log("hi")
+    console.log("nananaan")
     const apiKey = req.headers["x-api-key"];
     const sampleApiKey = "abcd1234-ef56-7890-gh12-ijkl345678mn";
     const {
