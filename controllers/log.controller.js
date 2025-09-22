@@ -1,0 +1,27 @@
+import * as LogServices from "../services/log.service.js";
+export const addLog = async (req, res, next) => {
+  try {
+    const apiKey = req.headers["x-api-key"];
+    const sampleApiKey = "abcd1234-ef56-7890-gh12-ijkl345678mn";
+    const {
+      timestamp,
+      apiName,
+      statusCode,
+      responseTimeMs,
+      logs = [],
+    } = req.body;
+    if (!timestamp || !apiName || !statusCode || !responseTimeMs) {
+      res.status(404).json({ message: "Unauthorized" });
+      return;
+    }
+    const logObj = { timestamp, apiName, statusCode, responseTimeMs, logs };
+    if (apiKey !== sampleApiKey) {
+      res.status(404).json({ message: "Unauthorized" });
+    } else {
+      const data = await LogServices.addLog(logObj);
+      res.status(200).json({ data: data, message: "Log Added successfully" });
+    }
+  } catch (err) {
+    next({ code: 404, message: "Invalid credentials" });
+  }
+};
