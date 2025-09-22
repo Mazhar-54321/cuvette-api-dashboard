@@ -10,6 +10,7 @@ export const addLog = async (req, res, next) => {
       responseTimeMs,
       logs = [],
     } = req.body;
+    console.log(req.body)
     if (!timestamp || !apiName || !statusCode || !responseTimeMs) {
       res.status(404).json({ message: "Unauthorized" });
       return;
