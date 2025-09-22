@@ -14,7 +14,14 @@ export const addLog = async (req, res, next) => {
       res.status(404).json({ message: "Unauthorized" });
       return;
     }
-    const logObj = { timestamp, apiName, statusCode, responseTimeMs, logs };
+    const logObj = {
+      timestamp,
+      apiName,
+      statusCode,
+      responseTimeMs,
+      logs,
+      tracerApiKey: apiKey,
+    };
     if (apiKey !== sampleApiKey) {
       res.status(404).json({ message: "Unauthorized" });
     } else {
