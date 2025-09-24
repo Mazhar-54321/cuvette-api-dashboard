@@ -33,6 +33,7 @@ export const addLog = async (req, res, next) => {
       res.status(200).json({ data: data, message: "Log Added successfully" });
     }
   } catch (err) {
+    console.log(err);
     next({ code: 404, message: "Invalid credentials" });
   }
 };
