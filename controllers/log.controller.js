@@ -1,7 +1,6 @@
 import * as LogServices from "../services/log.service.js";
 export const addLog = async (req, res, next) => {
   try {
-    console.log("nananaan")
     const apiKey = req.headers["x-api-key"];
     const sampleApiKey = "abcd1234-ef56-7890-gh12-ijkl345678mn";
     const {
@@ -9,9 +8,9 @@ export const addLog = async (req, res, next) => {
       apiName,
       statusCode,
       responseTimeMs,
+      method,
       logs = [],
     } = req.body;
-    console.log(req.body)
     if (!timestamp || !apiName || !statusCode || !responseTimeMs) {
       res.status(404).json({ message: "Unauthorized" });
       return;
@@ -22,6 +21,7 @@ export const addLog = async (req, res, next) => {
       statusCode,
       responseTimeMs,
       logs,
+      method,
       tracerApiKey: apiKey,
     };
     if (apiKey !== sampleApiKey) {

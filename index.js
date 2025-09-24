@@ -2,10 +2,12 @@ import express, { json } from 'express';
 import { config } from 'dotenv';
 import routes from './routes/index.js';
 import database from './config/database.js';
+import cors from 'cors';
 database();
 config();
 const app = express();
 app.use(json())
+app.use(cors())
 app.use('/', routes);
 app.use((err,req,res,next)=>{
     console.log(err,"mmnmnmn");
