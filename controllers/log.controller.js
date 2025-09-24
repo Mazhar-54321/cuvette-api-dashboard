@@ -9,6 +9,7 @@ export const addLog = async (req, res, next) => {
       statusCode,
       responseTimeMs,
       method,
+      traceId,
       logs = [],
     } = req.body;
     if (!timestamp || !apiName || !statusCode || !responseTimeMs) {
@@ -22,6 +23,7 @@ export const addLog = async (req, res, next) => {
       responseTimeMs,
       logs,
       method,
+      traceId,
       tracerApiKey: apiKey,
     };
     if (apiKey !== sampleApiKey) {
