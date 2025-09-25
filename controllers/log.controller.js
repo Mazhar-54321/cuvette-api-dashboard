@@ -16,6 +16,9 @@ export const addLog = async (req, res, next) => {
       res.status(404).json({ message: "Unauthorized" });
       return;
     }
+    if(logs){
+       logs =JSON.parse(logs)
+    }
     const logObj = {
       timestamp,
       apiName,
