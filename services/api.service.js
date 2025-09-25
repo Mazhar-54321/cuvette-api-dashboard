@@ -10,7 +10,7 @@ export const getAllApis = async (apiKey,month,year) => {
         $lte: end,
       },
     },
-    { statusCode: 1,method:1, timestamp: 1, _id: 0, apiName: 1 }
+    { statusCode: 1,method:1, timestamp: 1, _id: 0,traceId:1, apiName: 1 }
   )
     .lean()
     .sort({ timestamp: 1 });
@@ -52,3 +52,4 @@ export const getApi = async (apiKey, apiName, from, to, page) => {
 
   return data;
 };
+

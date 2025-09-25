@@ -37,3 +37,18 @@ export const addLog = async (req, res, next) => {
     next({ code: 404, message: "Invalid credentials" });
   }
 };
+export const getAllLogs = async(req,res,next)=>{
+    try {
+    const apiKey = req.headers["x-api-key"];
+    const sampleApiKey = "abcd1234-ef56-7890-gh12-ijkl345678mn";
+    if (apiKey !== sampleApiKey) {
+      res.status(404).json({ message: "Unauthorized" });
+    } else {
+      const data = await LogServices.getAllLogs(apiKey);
+      res.status(200).json({ data: data, message: "Logs Fetched successfully" });
+    }
+  } catch (err) {
+    console.log(err);
+    next({ code: 404, message: "Invalid credentials" });
+  }
+}
