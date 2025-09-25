@@ -2,7 +2,7 @@ import LogModel from '../models/log.model.js';
 import ConfigModel from '../models/config.model.js';
 export const addLog = async(log)=>{
   const data = await LogModel.create(log);
-  const configData = await ConfigModel.find({apiName:log?.apiName,apiKey:log?.tracerApiKey});
+  const configData = await ConfigModel.findOne({apiName:log?.apiName,apiKey:log?.tracerApiKey});
   if(!configData){
     await ConfigModel.create({
       apiKey:log?.tracerApiKey,
