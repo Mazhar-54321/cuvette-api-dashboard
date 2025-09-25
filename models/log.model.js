@@ -7,6 +7,10 @@ const cuvetteMiddlewareLogSchema = new Schema({
   apiName: { type: String, required: true },
   statusCode: { type: Number, required: true },
   responseTimeMs: { type: Number, required: true },
-  logs: [{timestamp:String, type: String, message: String } ],
+  logs:[new Schema({
+  timestamp: { type: Date, required: true },
+  type: { type: String, required: true },
+  message: { type: String, required: true },
+})],
 });
 export default model("cuvetteMiddlewareLog", cuvetteMiddlewareLogSchema);
