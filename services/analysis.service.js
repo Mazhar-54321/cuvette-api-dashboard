@@ -53,7 +53,7 @@ const calculateAnalysisData = (data) => {
   })
   return {
     totalRequestVolume: data?.length,
-    averageResponseTime:(aggreagteResponseTime/data?.length).toFixed(2),
+    averageResponseTime:(aggreagteResponseTime/data?.length).toFixed(2)+"ms",
     uptimePercentage:((aggregateSuccessfulResponses/data?.length)*100).toFixed(2)+"%",
     errorRate:((aggregateErrorresponse/data?.length)*100).toFixed(2)+"%",
     mostCommonError:commonErrorMap,
