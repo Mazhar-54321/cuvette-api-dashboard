@@ -5,7 +5,6 @@ const logsConfigSchema = new Schema({
   apiName: { type: String, required: true },
   aliasName: { type: String, required: true },
   startDate: { type: Date, default: Date.now },
-
   schedule: {
     start: { type: Date, default: Date.now },
     end: {
@@ -13,13 +12,10 @@ const logsConfigSchema = new Schema({
       default: () => new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), 
     },
   },
-
-  requestLimit: {
-    hour: { type: Number, default: 100 },
-    day: { type: Number, default: 2400 },
-  },
-
-  enabled: { type: Boolean, default: true },
+  numberOfRequest:{type:Number,default:0},
+  rate:{type:String,default:'hour'},
+  
+  enabled: { type: Boolean, default: false },
 });
 
 export default model("logsConfig", logsConfigSchema);
