@@ -1,7 +1,7 @@
 import LogModel from "../models/log.model.js";
 import ConfigModel from "../models/config.model.js";
 import RequestLimitModel from "../models/requestlimit.model.js";
-import { format } from "date-fns";
+import { endOfDay, format, isWithinInterval, startOfDay } from "date-fns";
 export const addLog = async (log) => {
   const configData = await ConfigModel.findOne({
     apiName: log?.apiName,
@@ -15,6 +15,11 @@ export const addLog = async (log) => {
     });
   } else {
     const { enabled, schedule, numberOfRequest, rate } = configData;
+    const range = {
+      start: startOfDay(schedule?.start),
+      end: endOfDay(schedule?.end),
+    };
+    const isWithinInterval =isWithinInterval(new Date(),range);
     let requestLimitFilterObj = {
       apiName: log?.apiName,
       apiKey: log?.tracerApiKey,
@@ -33,31 +38,40 @@ export const addLog = async (log) => {
       throw { message: "Scheduling is off for this api" };
     } else {
       const { day, hour, hourCount, dayCount, minuteCount } = requestLimitData;
+      if(!isWithinInterval){
+        throw {message : "Time is not in scheduler range limit"}
+      }
       if (rate === "hour") {
         if (hourCount === numberOfRequest) {
           throw { message: "Rate limit exceeded" };
-        }else{
-          const updateRequestLimit = await RequestLimitModel.findOneAndUpdate(requestLimitFilterObj,{$set:{hourCount:hourCount+1}})
+        } else {
+          const updateRequestLimit = await RequestLimitModel.findOneAndUpdate(
+            requestLimitFilterObj,
+            { $set: { hourCount: hourCount + 1 } }
+          );
           const data = await LogModel.create(log);
-
         }
       }
-      if (rate === "minute" ) {
+      if (rate === "minute") {
         if (minuteCount === numberOfRequest) {
           throw { message: "Rate limit exceeded" };
-        }else{
-           const updateRequestLimit = await RequestLimitModel.findOneAndUpdate(requestLimitFilterObj,{$set:{minuteCount:minuteCount+1}})
-             const data = await LogModel.create(log);
-
+        } else {
+          const updateRequestLimit = await RequestLimitModel.findOneAndUpdate(
+            requestLimitFilterObj,
+            { $set: { minuteCount: minuteCount + 1 } }
+          );
+          const data = await LogModel.create(log);
         }
       }
-      if (rate === "day" ) {
+      if (rate === "day") {
         if (dayCount === numberOfRequest) {
           throw { message: "Rate limit exceeded" };
-        }else{
-           const updateRequestLimit = await RequestLimitModel.findOneAndUpdate(requestLimitFilterObj,{$set:{dayCount:dayCount+1}})
-             const data = await LogModel.create(log);
-
+        } else {
+          const updateRequestLimit = await RequestLimitModel.findOneAndUpdate(
+            requestLimitFilterObj,
+            { $set: { dayCount: dayCount + 1 } }
+          );
+          const data = await LogModel.create(log);
         }
       }
     }

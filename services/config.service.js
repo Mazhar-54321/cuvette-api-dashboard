@@ -5,6 +5,6 @@ export const getConfigData = async(apiKey)=>{
 }
 export const saveConfigData =  async(apiKey,data)=>{
   console.log(apiKey,data);  
- const configData = await ConfigModel.findOneAndUpdate({apiKey:apiKey},{$set:data},{new:true});
+ const configData = await ConfigModel.findOneAndUpdate({apiKey:apiKey},{$set:data},{new:true,projection:{_id:0,apiKey:0}},{_id:0,apiKey:0});
  return configData;
 }
