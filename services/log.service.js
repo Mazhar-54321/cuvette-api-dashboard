@@ -49,7 +49,7 @@ export const addLog = async (log) => {
             requestLimitFilterObj,
             { $set: { hourCount: hourCount + 1 } }
           );
-          const data = await LogModel.create(log);
+          data =await LogModel.create(log);
         }
       }
       if (rate === "minute") {
@@ -60,7 +60,7 @@ export const addLog = async (log) => {
             requestLimitFilterObj,
             { $set: { minuteCount: minuteCount + 1 } }
           );
-          const data = await LogModel.create(log);
+          data = await LogModel.create(log);
         }
       }
       if (rate === "day") {
@@ -71,9 +71,10 @@ export const addLog = async (log) => {
             requestLimitFilterObj,
             { $set: { dayCount: dayCount + 1 } }
           );
-          const data = await LogModel.create(log);
+          data = await LogModel.create(log);
         }
       }
+      return data;
     }
   }
   return data;
