@@ -19,7 +19,7 @@ export const addLog = async (log) => {
       start: startOfDay(schedule?.start),
       end: endOfDay(schedule?.end),
     };
-    const isWithinInterval =isWithinInterval(new Date(),range);
+    const isWithinRange =isWithinInterval(new Date(),range);
     let requestLimitFilterObj = {
       apiName: log?.apiName,
       apiKey: log?.tracerApiKey,
@@ -38,7 +38,7 @@ export const addLog = async (log) => {
       throw { message: "Scheduling is off for this api" };
     } else {
       const { day, hour, hourCount, dayCount, minuteCount } = requestLimitData;
-      if(!isWithinInterval){
+      if(!isWithinRange){
         throw {message : "Time is not in scheduler range limit"}
       }
       if (rate === "hour") {
