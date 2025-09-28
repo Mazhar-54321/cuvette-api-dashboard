@@ -4,7 +4,10 @@ export const getConfigData = async(apiKey)=>{
   return configData;
 }
 export const saveConfigData =  async(apiKey,data)=>{
-  console.log(apiKey,data);  
- const configData = await ConfigModel.findOneAndUpdate({apiKey:apiKey},{$set:data},{new:true,projection:{_id:0,apiKey:0}},{_id:0,apiKey:0});
+ const configCheckForDuplicate = await ConfigModel.findOne({aliasName:data?.aliasName});
+ if(configCheckForDuplicate && configCheckForDuplicate?.apiName !== data?.apiName){
+  throw {message:'Duplicate Api Name'}
+ } 
+ const configData = await ConfigModel.findOneAndUpdate({apiKey:apiKey,apiName:data?.apiName},{$set:data},{new:true,projection:{_id:0,apiKey:0}});
  return configData;
 }

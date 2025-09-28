@@ -39,6 +39,8 @@ const calculateAnalysisData = (data) => {
   });
   if(Object.keys(commonErrorMap)?.length){
     commonErrorMap =Object.entries(commonErrorMap).sort((a,b)=>b[1]-a[1])[0][0]
+  }else{
+    commonErrorMap=null
   }
   let formattedChartData = [];
   Object.keys(lineChartData).forEach((key)=>{

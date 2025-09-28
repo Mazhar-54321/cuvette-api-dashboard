@@ -31,10 +31,9 @@ export const addLog = async (req, res, next) => {
       res.status(404).json({ message: "Unauthorized" });
     } else {
       const data = await LogServices.addLog(logObj);
-      res.status(200).json({ data: data, message: "Log Added successfully" });
+      res.status(200).json({ message: "Log Added successfully" });
     }
   } catch (err) {
-    console.log(err);
     next({ code: 404, message: "Invalid credentials" });
   }
 };
@@ -49,7 +48,6 @@ export const getAllLogs = async(req,res,next)=>{
       res.status(200).json({ data: data, message: "Logs Fetched successfully" });
     }
   } catch (err) {
-    console.log(err);
     next({ code: 404, message: "Invalid credentials" });
   }
 }

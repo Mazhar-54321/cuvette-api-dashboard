@@ -10,8 +10,7 @@ app.use(json())
 app.use(cors())
 app.use('/', routes);
 app.use((err,req,res,next)=>{
-    console.log(err,"mmnmnmn");
-    next()
+     res.status(err?.code).json(err?.message);
 })
 app.listen(8767,()=>{
     console.log('server started at 8767')

@@ -4,6 +4,7 @@ const requestlimitSchema = new Schema({
     apiKey:{type:String,required:true},
     day:{type:String},
     hour:{type:String},
+    minute:{type:String},
     hourCount:{type:Number},
     dayCount:{type:Number},
     minuteCount:{type:Number}

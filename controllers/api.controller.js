@@ -6,7 +6,6 @@ export const getApis = async (req, res, next) => {
     const data = await ApiService.getAllApis(sampleApiKey,month,year);
     res.status(200).json({ data: data, message: "Apis fetched successfully" });
   } catch (err) {
-    console.log(err);
     next({ code: 404, message: "Invalid credentials" });
   }
 };
@@ -18,7 +17,6 @@ export const getApiByName = async (req, res, next) => {
     const data = await ApiService.getApi(sampleApiKey,atob(apiName),from,to,page);
     res.status(200).json({ data, message: "Api data fetched successfully" });
   } catch (err) {
-    console.log(err);
     next({ code: 404, message: "Invalid credentials" });
   }
 };

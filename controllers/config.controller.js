@@ -10,7 +10,6 @@ export const getConfigData = async(req,res,next)=>{
           res.status(200).json({ data: data, message: "Analysis data fetched successfully" });
         }
       } catch (err) {
-        console.log(err);
         next({ code: 404, message: "Invalid credentials" });
       }
 }
