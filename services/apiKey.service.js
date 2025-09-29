@@ -5,5 +5,8 @@ export const storeApiKey = async (apiKey)=>{
 }
 export const validateApiKey = async(apiKey)=>{
     const data = await ApiKeyModel.findOne({key:apiKey});
+    if(!data){
+        throw {message:'Invalid api key'}
+    }
     return data;
 }
