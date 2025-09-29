@@ -5,16 +5,10 @@ const logsConfigSchema = new Schema({
   apiName: { type: String, required: true },
   aliasName: { type: String, required: true },
   startDate: { type: Date, default: Date.now },
-  schedule: {
-    start: { type: Date, default: Date.now },
-    end: {
-      type: Date,
-      default: () => new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), 
-    },
-  },
+  startTime:{hh:{type:Number},mm:{type:Number},ss:{type:Number}},
+  endTime:{hh:{type:Number},mm:{type:Number},ss:{type:Number}},
   numberOfRequest:{type:Number,default:0},
   rate:{type:String,default:'hour'},
-  
   enabled: { type: Boolean, default: false },
 });
 

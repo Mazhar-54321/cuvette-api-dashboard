@@ -1,7 +1,13 @@
 import LogModel from "../models/log.model.js";
 import ConfigModel from "../models/config.model.js";
 import RequestLimitModel from "../models/requestlimit.model.js";
-import { endOfDay, format, isWithinInterval, startOfDay } from "date-fns";
+import {
+  format,
+  getHours,
+  getMinutes,
+  getSeconds,
+  isEqual,
+} from "date-fns";
 
 export const addLog = async (log) => {
   const configData = await ConfigModel.findOne({
@@ -16,13 +22,9 @@ export const addLog = async (log) => {
       aliasName: log?.apiName,
     });
   } else {
-    const { enabled, schedule, numberOfRequest, rate } = configData;
-    
-    const range = {
-      start: startOfDay(schedule?.start),
-      end: endOfDay(schedule?.end),
-    };
-    const isWithinRange = isWithinInterval(new Date(), range);
+    const { enabled, startDate, numberOfRequest, rate, startTime, endTime } =
+      configData;
+    const isWithinRange = isEqual(startDate, new Date().toISOString());
     let requestLimitFilterObj = {
       apiName: log?.apiName,
       apiKey: log?.tracerApiKey,
@@ -50,17 +52,29 @@ export const addLog = async (log) => {
       if (!isWithinRange) {
         throw { message: "Time is not in scheduler range limit" };
       }
-      if (rate === "hour") {
-        if (hourCount === numberOfRequest) {
-          throw { message: "Rate limit exceeded" };
-        } else {
-          await updateRequestModel(
-            requestLimitFilterObj,
-            { hourCount: 1 },
-            log
-          );
-        }
+      const date = new Date();
+      const hours = getHours(date);
+      const mins = getMinutes(date);
+      const secs = getSeconds(date);
+      if (
+        !(toSeconds(hours, mins, secs) >=
+          toSeconds(startTime?.hh, startTime?.mm, startTime?.ss) &&
+        toSeconds(hours, mins, secs) <=
+          toSeconds(endTime?.hh, endTime?.mm, endTime?.ss))
+      ){
+ throw { message: "Time is not in scheduler range limit" };
       }
+        if (rate === "hour") {
+          if (hourCount === numberOfRequest) {
+            throw { message: "Rate limit exceeded" };
+          } else {
+            await updateRequestModel(
+              requestLimitFilterObj,
+              { hourCount: 1 },
+              log
+            );
+          }
+        }
       if (rate === "minute") {
         if (minuteCount === numberOfRequest) {
           throw { message: "Rate limit exceeded" };
@@ -103,3 +117,6 @@ const updateRequestModel = async (filterObj, incObj, log) => {
   );
   await LogModel.create(log);
 };
+function toSeconds(hh, mm, ss) {
+  return Number(hh) * 3600 + Number(mm) * 60 + Number(ss);
+}
