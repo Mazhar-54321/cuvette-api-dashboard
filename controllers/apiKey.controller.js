@@ -18,6 +18,6 @@ export const validateApiKey = async (req, res, next) => {
       .status(200)
       .json({ data: data, message: "Api key validated successfully" });
   } catch (err) {
-    next({ code: 404, message: "Invalid credentials" });
+    next({ code: 401, message: "Invalid api key" });
   }
 };
