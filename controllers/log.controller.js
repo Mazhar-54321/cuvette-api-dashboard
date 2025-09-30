@@ -29,7 +29,7 @@ export const addLog = async (req, res, next) => {
     const data = await LogServices.addLog(logObj);
     res.status(200).json({ message: "Log Added successfully" });
   } catch (err) {
-    next({ code: 404, message: "Invalid credentials" });
+    next({ code: 404, message: err?.message });
   }
 };
 export const getAllLogs = async (req, res, next) => {
@@ -38,6 +38,6 @@ export const getAllLogs = async (req, res, next) => {
     const data = await LogServices.getAllLogs(apiKey);
     res.status(200).json({ data: data, message: "Logs Fetched successfully" });
   } catch (err) {
-    next({ code: 404, message: "Invalid credentials" });
+    next({ code: 404, message: err?.message });
   }
 };

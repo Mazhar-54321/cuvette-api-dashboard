@@ -24,7 +24,7 @@ export const addLog = async (log) => {
   } else {
     const { enabled, startDate, numberOfRequest, rate, startTime, endTime } =
       configData;
-    const isWithinRange = isEqual(startDate, new Date().toISOString());
+    const isWithinRange =format(new Date(startDate),"dd/MM/yyyy")=== format(new Date(),"dd/MM/yyyy");
     let requestLimitFilterObj = {
       apiName: log?.apiName,
       apiKey: log?.tracerApiKey,
@@ -40,7 +40,6 @@ export const addLog = async (log) => {
     const requestLimitData = await RequestLimitModel.findOne(
       requestLimitFilterObj
     );
-
     if (!enabled) {
       throw { message: "Scheduling is off for this api" };
     } else {
@@ -65,29 +64,29 @@ export const addLog = async (log) => {
  throw { message: "Time is not in scheduler range limit" };
       }
         if (rate === "hour") {
-          if (hourCount === numberOfRequest) {
+          if (hourCount >= numberOfRequest) {
             throw { message: "Rate limit exceeded" };
           } else {
             await updateRequestModel(
               requestLimitFilterObj,
-              { hourCount: 1 },
+              { hourCount: 1,dayCount:1 },
               log
             );
           }
         }
       if (rate === "minute") {
-        if (minuteCount === numberOfRequest) {
+        if (minuteCount >= numberOfRequest) {
           throw { message: "Rate limit exceeded" };
         } else {
           await updateRequestModel(
             requestLimitFilterObj,
-            { minuteCount: 1 },
+            { minuteCount: 1,hourCount: 1,dayCount:1  },
             log
           );
         }
       }
       if (rate === "day") {
-        if (dayCount === numberOfRequest) {
+        if (dayCount >= numberOfRequest) {
           throw { message: "Rate limit exceeded" };
         } else {
           await updateRequestModel(requestLimitFilterObj, { dayCount: 1 }, log);
