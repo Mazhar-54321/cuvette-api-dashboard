@@ -1,4 +1,4 @@
-import { format,fromZonedTime  } from 'date-fns-tz';
+import { format,fromZonedTime, toDate  } from 'date-fns-tz';
 import * as ConfigService from '../services/config.service.js'
 export const getConfigData = async(req,res,next)=>{
     try {
@@ -14,7 +14,7 @@ export const saveConfigData = async(req,res,next)=>{
         const apiKey = req.body.apiKey;
         console.log(req.body);
         if(req.body.startDate){
-          req.body.startDate =fromZonedTime(new Date(req.body.startDate), "Asia/Kolkata")
+          req.body.startDate =toDate(req.body.startDate, { timeZone: "Asia/Kolkata" })
         }
         console.log(req.body.startDate)
         const data = await ConfigService.saveConfigData(apiKey,req.body);
