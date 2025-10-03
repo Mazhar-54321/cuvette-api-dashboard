@@ -14,7 +14,7 @@ export const saveConfigData = async(req,res,next)=>{
         const apiKey = req.body.apiKey;
         console.log(req.body);
         if(req.body.startDate){
-          req.body.startDate =format(req.body.startDate, "yyyy-MM-dd HH:mm:ssXXX", { timeZone: "Asia/Kolkata" })
+          req.body.startDate =format(new Date(req.body.startDate), "yyyy-MM-dd HH:mm:ssXXX", { timeZone: "Asia/Kolkata" })
         }
         const data = await ConfigService.saveConfigData(apiKey,req.body);
          
