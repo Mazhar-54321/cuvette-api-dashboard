@@ -1,5 +1,5 @@
 import LogModel from "../models/log.model.js";
-import { format } from 'date-fns';
+import { format } from 'date-fns-tz';
 
 export const analysisData = async (apiKey) => {
   const data = await LogModel.find(
@@ -19,7 +19,7 @@ const calculateAnalysisData = (data) => {
     let lineChartData={};
   data?.forEach((el) => {
     aggreagteResponseTime += el?.responseTimeMs;
-    const date = format(new Date(el?.timestamp),"dd/MM/yyyy").toString();
+    const date = format(new Date(el?.timestamp),"dd/MM/yyyy",{ timeZone: "Asia/Kolkata" }).toString();
     
     const statusCodeFirstChar = `${el.statusCode}`[0];
     if(lineChartData[date]){
