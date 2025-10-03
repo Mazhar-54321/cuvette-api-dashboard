@@ -1,3 +1,4 @@
+import { format } from 'date-fns-tz';
 import * as ConfigService from '../services/config.service.js'
 export const getConfigData = async(req,res,next)=>{
     try {
@@ -13,7 +14,8 @@ export const saveConfigData = async(req,res,next)=>{
         const apiKey = req.body.apiKey;
         console.log(req.body)
         const data = await ConfigService.saveConfigData(apiKey,req.body);
-          res.status(200).json({ data: data, message: "Config data updated successfully" });
+
+          res.status(200).json({ data: {...data,startDate:format(data?.startDate,"dd/MM/yyyy",{ timeZone: "Asia/Kolkata" }) }, message: "Config data updated successfully" });
       } catch (err) {
         console.log(err);
         next({ code: 404, message: err.message });
