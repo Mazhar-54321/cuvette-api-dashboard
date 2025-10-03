@@ -13,12 +13,7 @@ export const getConfigData = async(req,res,next)=>{
 export const saveConfigData = async(req,res,next)=>{
     try {
         const apiKey = req.body.apiKey;
-        console.log(req.body);
-        if(req.body.startDate){
-          console.log(format(new Date(req.body.startDate),"dd/MM/yyyy HH:mm:ss"))
-          req.body.startDate =toDate((req.body.startDate), { timeZone: "Asia/Kolkata" })
-        }
-        console.log(req.body.startDate)
+        
         const data = await ConfigService.saveConfigData(apiKey,req.body);
           console.log(data)
           res.status(200).json({ data: data, message: "Config data updated successfully" });

@@ -6,8 +6,8 @@ import {
   getMinutes,
   getSeconds,
   isEqual,
+  format
 } from "date-fns";
-import { format } from "date-fns-tz";
 
 export const addLog = async (log) => {
   const configData = await ConfigModel.findOne({
@@ -24,19 +24,18 @@ export const addLog = async (log) => {
   } else {
     const { enabled, startDate, numberOfRequest, rate, startTime, endTime } =
       configData;
-    const isWithinRange =format(new Date(startDate),'dd/MM/yyyy HH:mm:ss',{ timeZone: "Asia/Kolkata" })=== format(new Date(),'dd/MM/yyyy HH:mm:ss',{ timeZone: "Asia/Kolkata" });
-    console.log(format(new Date(startDate),"dd/MM/yyyy",{ timeZone: "Asia/Kolkata" }),format(new Date(),"dd/MM/yyyy",{ timeZone: "Asia/Kolkata" }))
+    const isWithinRange =startDate=== format(new Date(),"yyyy-MM-dd");
     let requestLimitFilterObj = {
       apiName: log?.apiName,
       apiKey: log?.tracerApiKey,
-      day: format(new Date(), "dd/MM/yyyy",{ timeZone: "Asia/Kolkata" }),
+      day: format(new Date(), "yyyy-MM-dd"),
     };
     if (rate === "hour") {
-      requestLimitFilterObj["hour"] = format(new Date(), "H",{ timeZone: "Asia/Kolkata" });
+      requestLimitFilterObj["hour"] = format(new Date(), "H");
     }
     if (rate === "minute") {
-      requestLimitFilterObj["hour"] = format(new Date(), "H",{ timeZone: "Asia/Kolkata" });
-      requestLimitFilterObj["minute"] = format(new Date(), "m",{ timeZone: "Asia/Kolkata" });
+      requestLimitFilterObj["hour"] = format(new Date(), "H");
+      requestLimitFilterObj["minute"] = format(new Date(), "m");
     }
     const requestLimitData = await RequestLimitModel.findOne(
       requestLimitFilterObj
