@@ -16,6 +16,7 @@ export const saveConfigData = async(req,res,next)=>{
         if(req.body.startDate){
           req.body.startDate =fromZonedTime(new Date(req.body.startDate), "Asia/Kolkata")
         }
+        console.log(req.body.startDate)
         const data = await ConfigService.saveConfigData(apiKey,req.body);
           console.log(data)
           res.status(200).json({ data: data, message: "Config data updated successfully" });
