@@ -7,7 +7,7 @@ import {
   getSeconds,
   isEqual,
 } from "date-fns";
-import { formatInTimeZone } from "date-fns-tz";
+import { format } from "date-fns-tz";
 
 export const addLog = async (log) => {
   const configData = await ConfigModel.findOne({
