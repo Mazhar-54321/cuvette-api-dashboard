@@ -25,7 +25,7 @@ export const addLog = async (log) => {
     const { enabled, startDate, numberOfRequest, rate, startTime, endTime } =
       configData;
     const isWithinRange =format(new Date(startDate),"dd/MM/yyyy")=== format(new Date(),"dd/MM/yyyy");
-    console.log(isWithinRange);
+    console.log(isWithinRange,startDate,format(new Date(startDate),"dd/MM/yyyy"),format(new Date(),"dd/MM/yyyy"));
     let requestLimitFilterObj = {
       apiName: log?.apiName,
       apiKey: log?.tracerApiKey,
