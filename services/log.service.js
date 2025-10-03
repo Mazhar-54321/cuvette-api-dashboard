@@ -7,7 +7,7 @@ import {
   getSeconds,
   isEqual,
 } from "date-fns";
-import { format } from "date-fns-tz";
+import { formatInTimeZone } from "date-fns-tz";
 
 export const addLog = async (log) => {
   const configData = await ConfigModel.findOne({
@@ -24,7 +24,7 @@ export const addLog = async (log) => {
   } else {
     const { enabled, startDate, numberOfRequest, rate, startTime, endTime } =
       configData;
-    const isWithinRange =format(new Date(startDate),"dd/MM/yyyy",{ timeZone: "Asia/Kolkata" })=== format(new Date(),"dd/MM/yyyy",{ timeZone: "Asia/Kolkata" });
+    const isWithinRange =format(new Date(startDate),'dd/MM/yyyy HH:mm:ss',{ timeZone: "Asia/Kolkata" })=== format(new Date(),'dd/MM/yyyy HH:mm:ss',{ timeZone: "Asia/Kolkata" });
     console.log(format(new Date(startDate),"dd/MM/yyyy",{ timeZone: "Asia/Kolkata" }),format(new Date(),"dd/MM/yyyy",{ timeZone: "Asia/Kolkata" }))
     let requestLimitFilterObj = {
       apiName: log?.apiName,
