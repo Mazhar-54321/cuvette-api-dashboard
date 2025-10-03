@@ -1,5 +1,6 @@
-import { format,fromZonedTime, toDate  } from 'date-fns-tz';
+import { fromZonedTime, toDate  } from 'date-fns-tz';
 import * as ConfigService from '../services/config.service.js'
+import { format } from 'date-fns';
 export const getConfigData = async(req,res,next)=>{
     try {
         const apiKey = req.body.apiKey;
