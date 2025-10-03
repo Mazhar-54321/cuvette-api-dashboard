@@ -25,6 +25,7 @@ export const addLog = async (log) => {
     const { enabled, startDate, numberOfRequest, rate, startTime, endTime } =
       configData;
     const isWithinRange =format(new Date(startDate),"dd/MM/yyyy",{ timeZone: "Asia/Kolkata" })=== format(new Date(),"dd/MM/yyyy",{ timeZone: "Asia/Kolkata" });
+    console.log(format(new Date(startDate),"dd/MM/yyyy",{ timeZone: "Asia/Kolkata" }),format(new Date(),"dd/MM/yyyy",{ timeZone: "Asia/Kolkata" }))
     let requestLimitFilterObj = {
       apiName: log?.apiName,
       apiKey: log?.tracerApiKey,
