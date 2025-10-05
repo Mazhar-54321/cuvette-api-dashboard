@@ -2,7 +2,11 @@ import * as ApiKeyService from "../services/apiKey.service.js";
 import crypto from 'crypto'
 export const storeApiKey = async (req, res, next) => {
   try {
-    const data = await ApiKeyService.storeApiKey(crypto.randomBytes(16).toString("hex").substring(0,16));
+    const part1 = crypto.randomBytes(8).toString("hex").substring(0,8);
+    const part2 = crypto.randomBytes(8).toString("hex").substring(0,4);
+    const part3 = crypto.randomBytes(8).toString("hex").substring(0,4);
+    const part4 = crypto.randomBytes(8).toString("hex").substring(0,16)
+    const data = await ApiKeyService.storeApiKey(`${part1}-${part2}-${part3}-${part4}`);
     res
       .status(200)
       .json({ data: data, message: "Api key stored successfully" });
